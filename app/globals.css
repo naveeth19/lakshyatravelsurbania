@@ -46,6 +46,12 @@
 
   --maxw: 1280px;
   --gutter: 20px;
+  /* Sticky header height, so the hero can claim exactly the rest of the screen */
+  --header-h: 72px;
+}
+
+@media (min-width: 768px) {
+  :root { --header-h: 88px; }
 }
 
 @theme inline {
@@ -223,6 +229,22 @@
   @media (max-width: 380px) {
     .btn { padding: 0 16px; font-size: 15px; gap: 8px; }
     .btn-lg { padding: 0 18px; font-size: 15.5px; gap: 8px; }
+  }
+
+  /*
+   * Hero CTAs on phones. The full 58px button is too heavy when the whole
+   * hero has to fit one screen, so these are trimmed on mobile only and
+   * return to full size from the sm breakpoint up.
+   */
+  @media (max-width: 639px) {
+    .btn-hero {
+      min-height: 46px;
+      padding: 0 16px;
+      font-size: 14.5px;
+      gap: 7px;
+    }
+    /* Stays above Apple's 44pt minimum touch target. */
+    .btn-hero svg { width: 15px; height: 15px; }
   }
   .btn:active { transform: translateY(1px); }
 
@@ -757,4 +779,32 @@
     width: calc(100% + max(0px, (100vw - var(--maxw)) * 0.5));
     max-width: none;
   }
+}
+
+
+/* ------------------------------------------------------------------
+   Sticky contact bar
+   Hidden until the hero has been scrolled past, so it never covers the
+   first screen. The bar still renders in the HTML, so it works without
+   JavaScript — it simply starts visible in that case.
+   ------------------------------------------------------------------ */
+.contact-bar {
+  transition: transform .32s cubic-bezier(.22, 1, .36, 1), opacity .25s ease;
+}
+
+/*
+ * Initial state is CSS, not JavaScript. On a page that marks where its hero
+ * ends the bar starts hidden; everywhere else it starts visible. The observer
+ * then sets data-shown and takes over. Doing it this way avoids a flash on
+ * load and avoids setting state synchronously inside an effect.
+ */
+body:has([data-hero-end]) .contact-bar:not([data-shown]),
+.contact-bar[data-shown='false'] {
+  transform: translateY(110%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-bar { transition: none; }
 }

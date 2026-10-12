@@ -21,7 +21,7 @@ export function Hero({ trackingRef }: { trackingRef?: string }) {
   const message = genericMessage(trackingRef);
 
   return (
-    <section className="relative isolate md:min-h-[min(88vh,840px)]">
+    <section className="relative isolate">
       {/*
         Preload the crop this device will actually use. React hoists these into
         <head>, which restores the head start that next/image's `priority` gave
@@ -43,6 +43,11 @@ export function Hero({ trackingRef }: { trackingRef?: string }) {
         media="(min-width: 768px)"
         fetchPriority="high"
       />
+      {/*
+        One screen on a phone. 100svh (not dvh) is the height with the browser
+        chrome showing, so the hero never needs scrolling to be seen whole.
+      */}
+      <div className="relative isolate flex min-h-[calc(100svh-var(--header-h))] flex-col md:min-h-[min(88vh,840px)]">
       {/* ---------- Background ---------- */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
         {/*
@@ -82,7 +87,7 @@ export function Hero({ trackingRef }: { trackingRef?: string }) {
       </div>
 
       {/* ---------- Copy ---------- */}
-      <div className="shell pb-6 pt-7 md:pb-0 md:pt-14 lg:pt-16">
+      <div className="shell pb-4 pt-5 md:pb-0 md:pt-14 lg:pt-16">
         <div className="max-w-[640px]">
           <p
             className="fade-up inline-flex items-center gap-2.5 rounded-full border border-white/70 bg-white/92 px-4 py-2 text-[13.5px] font-medium text-[var(--text)] shadow-[0_2px_14px_-6px_rgba(13,17,19,.3)]"
@@ -95,7 +100,7 @@ export function Hero({ trackingRef }: { trackingRef?: string }) {
             Available 24/7 across Bengaluru
           </p>
 
-          <h1 className="h1 mt-5 text-[clamp(40px,5.6vw,72px)] text-[var(--text)]">
+          <h1 className="h1 mt-4 text-[clamp(36px,5.6vw,72px)] text-[var(--text)] md:mt-5">
             <span className="block">
               <Words text="Force Urbania" delay={0.08} />
             </span>
@@ -110,14 +115,14 @@ export function Hero({ trackingRef }: { trackingRef?: string }) {
           </h1>
 
           <p
-            className="fade-up mt-5 text-[clamp(19px,2vw,26px)] font-bold tracking-[-0.02em] text-[var(--text)]"
+            className="fade-up mt-3.5 text-[clamp(17.5px,2vw,26px)] font-bold tracking-[-0.02em] text-[var(--text)] md:mt-5"
             style={{ animationDelay: '.42s' }}
           >
             Spacious. Comfortable. Reliable.
           </p>
 
           <p
-            className="fade-up mt-2.5 max-w-[30rem] text-[clamp(15.5px,1.3vw,18px)] leading-relaxed text-[var(--muted)]"
+            className="fade-up mt-2 max-w-[30rem] text-[clamp(14.5px,1.3vw,18px)] leading-relaxed text-[var(--muted)] md:mt-2.5"
             style={{ animationDelay: '.5s' }}
           >
             9 to 16 seater Urbania for city travel, airport transfers, outstation trips and
@@ -125,7 +130,7 @@ export function Hero({ trackingRef }: { trackingRef?: string }) {
           </p>
 
           <div
-            className="fade-up mt-7 flex flex-col gap-3 sm:flex-row"
+            className="fade-up mt-5 flex flex-col gap-2 sm:mt-7 sm:flex-row sm:gap-3"
             style={{ animationDelay: '.58s' }}
           >
             <span className="magnetic relative inline-flex w-full sm:w-auto">
@@ -133,7 +138,7 @@ export function Hero({ trackingRef }: { trackingRef?: string }) {
                 aria-hidden
                 className="call-ring pointer-events-none absolute inset-0"
               />
-              <CallLink location="hero" className="btn btn-lg btn-accent w-full sm:w-auto">
+              <CallLink location="hero" className="btn btn-hero btn-lg btn-accent w-full sm:w-auto">
                 <PhoneIcon />
                 Call {site.phoneDisplay}
                 <Chevron />
@@ -143,7 +148,7 @@ export function Hero({ trackingRef }: { trackingRef?: string }) {
             <WhatsAppLink
               location="hero"
               message={message}
-              className="magnetic btn btn-lg w-full border border-[var(--line)] bg-white text-[var(--text)] shadow-[0_6px_20px_-10px_rgba(13,17,19,.35)] hover:bg-[var(--surface-2)] sm:w-auto"
+              className="magnetic btn btn-hero btn-lg w-full border border-[var(--line)] bg-white text-[var(--text)] shadow-[0_6px_20px_-10px_rgba(13,17,19,.35)] hover:bg-[var(--surface-2)] sm:w-auto"
             >
               <WhatsAppIcon className="text-[var(--whatsapp)]" />
               Book on WhatsApp
@@ -154,26 +159,31 @@ export function Hero({ trackingRef }: { trackingRef?: string }) {
 
         {/* ---------- Feature strip ---------- */}
         <ul
-          className="fade-up mt-9 grid grid-cols-2 md:w-fit gap-x-4 gap-y-5 rounded-2xl border border-white/60 bg-white/88 p-5 shadow-[0_8px_30px_-18px_rgba(13,17,19,.35)] sm:grid-cols-4 sm:gap-0 sm:divide-x sm:divide-[var(--line)] md:mt-10 md:px-6 md:py-4"
+          className="fade-up mt-6 grid grid-cols-2 gap-x-3 gap-y-3.5 rounded-2xl border border-white/60 bg-white/88 p-4 shadow-[0_8px_30px_-18px_rgba(13,17,19,.35)] sm:grid-cols-4 sm:gap-0 sm:divide-x sm:divide-[var(--line)] md:mt-10 md:w-fit md:px-6 md:py-4"
           style={{ animationDelay: '.68s' }}
         >
           {heroFeatures.map((f) => (
             <li key={f.sub} className="flex items-center gap-2.5 sm:px-3 sm:first:pl-0">
-              <HeroIcon name={f.icon} className="shrink-0 text-[var(--text)]" width={23} height={23} />
+              <HeroIcon name={f.icon} className="h-5 w-5 shrink-0 text-[var(--text)] md:h-[23px] md:w-[23px]" />
               <span className="leading-tight">
-                <span className="block whitespace-nowrap text-[13.5px] font-bold text-[var(--text)]">{f.title}</span>
-                <span className="block whitespace-nowrap text-[12px] text-[var(--muted)]">{f.sub}</span>
+                <span className="block whitespace-nowrap text-[12.5px] font-bold text-[var(--text)] md:text-[13.5px]">{f.title}</span>
+                <span className="block whitespace-nowrap text-[11.5px] text-[var(--muted)] md:text-[12px]">{f.sub}</span>
               </span>
             </li>
           ))}
         </ul>
 
-        {/* Reserve room so the photo is visible beside the copy on phones */}
-        <div aria-hidden className="h-[38vw] min-h-[150px] max-h-[260px] md:hidden" />
+      </div>
+
+        {/* Fills whatever is left of the screen, so the photo finishes the hero */}
+        <div aria-hidden className="min-h-[70px] flex-1 md:hidden" />
+
+        {/* Marks where the hero ends, for the sticky contact bar */}
+        <div data-hero-end aria-hidden className="h-px w-full" />
       </div>
 
       {/* ---------- Services card ---------- */}
-      <div className="shell relative z-10 pb-10 md:pb-16 md:pt-12 lg:pt-14">
+      <div className="shell relative z-10 pb-10 pt-6 md:-mt-[150px] md:pb-16 md:pt-0">
         <ul className="grid grid-cols-5 gap-x-1 rounded-[20px] border border-[var(--line)] bg-white px-2 py-5 shadow-[0_24px_60px_-30px_rgba(13,17,19,.45)] md:gap-0 md:divide-x md:divide-[var(--line)] md:rounded-[22px] md:py-6">
           {heroServices.map((s) => (
             <li key={s.title} className="px-0.5 md:px-5">

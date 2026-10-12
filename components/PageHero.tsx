@@ -62,6 +62,7 @@ export function PageHero({
           {aside}
         </div>
 
+        {/* Marks where the hero ends, for the sticky contact bar */}
         {stats && stats.length > 0 && (
           <dl className="mt-12 grid grid-cols-2 gap-6 border-t border-[var(--line-dark)] pt-8 sm:grid-cols-4">
             {stats.map((s) => (
@@ -76,6 +77,8 @@ export function PageHero({
             ))}
           </dl>
         )}
+
+        <div data-hero-end aria-hidden className="h-px w-full" />
       </div>
     </section>
   );
