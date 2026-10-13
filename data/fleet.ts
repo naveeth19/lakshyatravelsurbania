@@ -17,6 +17,8 @@ export interface Van {
   description: string;
   idealFor: string[];
   images: string[];
+  /** Shown in the Popular Vehicles showcase on the home page. */
+  popular?: boolean;
 }
 
 export const OUTSTATION_MIN_KM_PER_DAY = 300;
@@ -53,6 +55,7 @@ export const fleet: Van[] = [
       'Nine leather recliners and the most room per passenger in the fleet. Made for VIP guests, executives and long highway days.',
     idealFor: ['VIP and guest pickups', 'Executive travel', 'Long highway days', 'Small families with luggage'],
     images: [],
+    popular: true,
   },
   {
     slug: 'force-urbania-10-seater-maharaja',
@@ -88,6 +91,7 @@ export const fleet: Van[] = [
       'Maharaja comfort for twelve. The usual pick for wedding guests and visiting delegations.',
     idealFor: ['Wedding guest movement', 'Visiting delegations', 'Corporate offsites', 'Temple trips in comfort'],
     images: [],
+    popular: true,
   },
   {
     slug: 'force-urbania-10-seater',
@@ -106,6 +110,7 @@ export const fleet: Van[] = [
       'Comfortable pushback seats and strong AC at the lowest fare in the fleet. Great for airport runs and family outings.',
     idealFor: ['Airport pickups and drops', 'Family outings', 'City sightseeing', 'Budget-conscious groups'],
     images: [],
+    popular: true,
   },
   {
     slug: 'force-urbania-12-seater',
@@ -142,10 +147,16 @@ export const fleet: Van[] = [
       'Upgraded seats and a refreshed cabin for big groups on long itineraries, from college trips to destination weddings.',
     idealFor: ['Large groups of 13 to 16', 'College and school trips', 'Destination weddings', 'Long multi-day tours'],
     images: [],
+    popular: true,
   },
 ];
 
 export const tiers: Tier[] = ['Luxury Maharaja', 'Premium'];
+
+/** The four shown in the home-page showcase, cheapest first. */
+export const popularFleet = fleet
+  .filter((v) => v.popular)
+  .sort((a, b) => a.local8h80km - b.local8h80km);
 
 export function vanBySlug(slug: string): Van | undefined {
   return fleet.find((v) => v.slug === slug);
